@@ -1,108 +1,102 @@
 # MindCareON 🧠
 
-Uma plataforma moderna de telemedicina desenvolvida com Next.js 15, React 19, TailwindCSS e Prisma, focada em proporcionar consultas online eficientes e seguras.
+MindCareON é uma plataforma moderna de telemedicina focada em consultas online seguras, eficientes e com experiência digital de alto nível. Construída com Next.js 15, React 19, Prisma ORM e Tailwind CSS, oferece videoconferência com chat em tempo real e interface responsiva inspirada em grandes players como Google Meet e Zoom.
 
-## 🚀 Tecnologias
+## 🚀 Tecnologias Utilizadas
 
-- **Frontend**:
-  - Next.js 15.5.2 (com Turbopack)
-  - React 19.1.0
-  - TailwindCSS 4
-  - Framer Motion
-  - Radix UI (componentes acessíveis)
-  - Lucide React (ícones)
-  - Sonner (notificações)
+- **Frontend:** Next.js 15 (App Router) + React 19, Tailwind CSS 4, shadcn/ui, Radix UI (componentes acessíveis), Framer Motion (animações), Lucide React (ícones), Sonner (notificações elegantes)
+- **Backend:** Node.js, Prisma ORM, PostgreSQL (via Docker), Socket.io (chat e presença em tempo real), WebRTC (videoconferência peer-to-peer)
+- **DevOps:** Docker e Docker Compose, pnpm (gerenciador de pacotes)
 
-- **Backend**:
-  - Prisma ORM
-  - PostgreSQL
-  - Docker
+## 📋 Requisitos
 
-## 📋 Pré-requisitos
+- Node.js (LTS recomendada)
+- PNPM instalado globalmente
+- Docker + Docker Compose
 
-- Node.js (versão LTS recomendada)
-- PNPM
-- Docker e Docker Compose
-- PostgreSQL (via Docker)
+## ⚙️ Instalação e Configuração
 
-## 🛠️ Configuração do Ambiente
+1. Clone o repositório  
+   `git clone https://github.com/luisotaviopilotto/DRP10-PJI610-A2025S2-T001`  
+   `cd DRP10-PJI610-A2025S2-T001`
 
-1. Clone o repositório:
-```bash
-git clone [url-do-repositorio]
-cd mindcareon
-```
+2. Instale as dependências  
+   `pnpm install`
 
-2. Instale as dependências:
-```bash
-pnpm install
-```
+3. Configure as variáveis de ambiente  
+   Crie um arquivo `.env` na raiz do projeto com:  
+   `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/drp10_pji610_a2025s2_t001"`
 
-3. Configure as variáveis de ambiente:
-- Crie um arquivo `.env` na raiz do projeto
-- Adicione a URL do banco de dados:
-```env
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/drp10_pji610_a2025s2_t001"
-```
+4. Suba o banco de dados  
+   `docker-compose up -d`
 
-4. Inicie o banco de dados:
-```bash
-docker-compose up -d
-```
+5. Rode as migrações do Prisma  
+   `pnpm prisma migrate dev`
 
-5. Execute as migrações do Prisma:
-```bash
-pnpm prisma migrate dev
-```
+## 🏃 Executando o Projeto
 
-## 🚀 Executando o Projeto
+- **Modo desenvolvimento:**  
+  `pnpm dev`  
+  Acesse: http://localhost:3000
 
-1. Ambiente de desenvolvimento:
-```bash
-pnpm dev
-```
-- Acesse: http://localhost:3000
+- **Build de produção:**  
+  `pnpm build`  
+  `pnpm start`
 
-2. Build de produção:
-```bash
-pnpm build
-pnpm start
-```
+## 🌟 Funcionalidades Principais
 
-## 🌟 Funcionalidades
+- Videoconferência online com múltiplos participantes
+- Chat em tempo real integrado na sala
+- Interface moderna, responsiva e acessível
+- Animações suaves
+- Tema claro/escuro
+- Notificações contextuais (Sonner)
+- Arquitetura escalável
 
-- ✅ Sala de videoconferência com chat em tempo real
-- ✅ Interface moderna e responsiva
-- ✅ Componentes acessíveis com Radix UI
-- ✅ Animações suaves com Framer Motion
-- ✅ Tema claro/escuro
-- ✅ Notificações elegantes com Sonner
-
-## 🔧 Estrutura do Projeto
+## 📁 Estrutura de Pastas
 
 ```
 mindcareon/
 ├── src/
-│   ├── app/           # Rotas e páginas
-│   ├── components/    # Componentes reutilizáveis
-│   ├── lib/          # Utilitários e configurações
-│   └── assets/       # Recursos estáticos
-├── prisma/           # Schema e migrações
-└── docker-compose.yml # Configuração do Docker
+│ ├── app/
+│ │ ├── (pages)/
+│ │ │ └── meeting/[sessionId]/
+│ ├── components/
+│ │ └── ui/
+│ ├── lib/
+│ ├── hooks/
+│ └── assets/
+├── prisma/
+├── docker-compose.yml
+├── server.js
+├── pnpm-workspace.yaml
+├── tsconfig.json
+└── README.md
 ```
+
+## 🧐 Exemplos de Uso
+
+1. Cadastre-se ou entre na plataforma.
+2. Crie ou acesse uma sala de videoconferência.
+3. Utilize o chat integrado durante a reunião.
+4. Receba notificações ao entrar/sair participantes.
+5. Use em desktop ou dispositivos móveis.
+
+## 💡 Como Contribuir
+
+1. Faça fork do repositório
+2. Crie uma branch:
+   `git checkout -b feature/NovaFeature`
+3. Commit suas alterações:
+   `git commit -m 'feat: NovaFeature'`
+4. Push para o remoto:
+   `git push origin feature/NovaFeature`
+5. Abra um Pull Request
 
 ## 📝 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Projeto sob licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
-## 👥 Contribuição
+## 🔗 Recursos
 
-1. Faça o fork do projeto
-2. Crie sua feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
----
-
-Desenvolvido com 💙 pela equipe MindCareON
+Logo disponível em `src/assets/logo.svg`
