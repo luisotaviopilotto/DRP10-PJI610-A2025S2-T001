@@ -7,3 +7,85 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  participants Participant[]
+  messages     Message[]
+  events       Event[]
+}
+
+model Session {
+  id        String    @id @default(uuid())
+  code      String    @unique
+  title     String?
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+  isActive  Boolean   @default(true)
+
+  participants Participant[]
+  messages     Message[]
+  events       Event[]
+}
+
+model Participant {
+  id        String    @id @default(uuid())
+  userId    String
+  sessionId String
+  joinedAt  DateTime  @default(now())
+  leftAt    DateTime?
+
+  user    User    @relation(fields: [userId], references: [id])
+  session Session @relation(fields: [sessionId], references: [id])
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  sessionId String
+  userId    String
+  content   String
+  sentAt    DateTime @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+}
+
+model Event {
+  id        String    @id @default(uuid())
+  sessionId String
+  userId    String?
+  type      EventType
+  payload   Json?
+  createdAt DateTime  @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id])
+  user    User?   @relation(fields: [userId], references: [id])
+}
+
+// Enum para distinguir os papéis dos usuários
+enum Role {
+  THERAPIST
+  PATIENT
+}
+
+// Enum para tipos de eventos
+enum EventType {
+  JOINED // participante entrou
+  LEFT // participante saiu
+  MIC_ON // microfone ativado
+  MIC_OFF // microfone desativado
+  CAMERA_ON // câmera ativada
+  CAMERA_OFF // câmera desativada
+  SESSION_ENDED // sessão finalizada
+  MESSAGE_DELETED // mensagem apagada
+  RAISED_HAND // participante levantou a mão
+  LOWERED_HAND // participante abaixou a mão
+  REACTION // reação como emoji, etc
+}

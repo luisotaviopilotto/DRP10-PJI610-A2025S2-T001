@@ -1,17 +1,19 @@
-version: "3.9"
+version: "3.5"
 
 services:
   postgres:
-    container_name: "DRP10-PJI610-A2025S2-T001"
-    image: postgres
+    container_name: drp10-pji610-a2025s2-t001
+    image: postgres:16
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: drp10_pji610_a2025s2_t001
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
 volumes:
-  data:
+  db-data:
+    driver: local
