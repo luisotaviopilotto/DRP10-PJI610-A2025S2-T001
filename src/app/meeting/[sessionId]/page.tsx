@@ -1,3 +1,5 @@
+"use client";
+
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { FaRegCircleDot } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
@@ -9,10 +11,32 @@ import {
 } from "react-icons/bs";
 import { IoSend } from "react-icons/io5";
 import { HiDotsVertical } from "react-icons/hi";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
+
+// Função utilitária para extrair iniciais
+const getInitials = (name: string | null) => {
+  if (!name) return "";
+  const parts = name.trim().toUpperCase().split(" ");
+  if (parts.length === 1) {
+    return parts[0].substring(0, 2);
+  }
+  return (parts[0][0] + (parts[1]?.[0] ?? "")).substring(0, 2);
+};
 
 const MeetingRoom = () => {
+  const { sessionId } = useParams();
+  const searchParams = useSearchParams();
+  const userName = searchParams.get("name");
+  const userInitials = getInitials(userName);
+  const router = useRouter();
+
+  function handleEndSession() {
+    router.push("/");
+  }
+
   return (
     <div className="h-screen flex flex-col">
+      {/* Header */}
       <div className="w-full py-2 border-b border-b-gray-100 flex justify-between px-20">
         <div className="flex gap-2 items-center">
           <div className="aspect-square h-8 rounded-md bg-green-900 flex items-center justify-center">
@@ -22,7 +46,7 @@ const MeetingRoom = () => {
             <h1 className="text-sm text-gray-600 font-bold">
               Sessão de Terapia
             </h1>
-            <h2 className="text-xs text-gray-500">ID: 7C3F2A</h2>
+            <h2 className="text-xs text-gray-500">ID: {sessionId}</h2>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -30,9 +54,12 @@ const MeetingRoom = () => {
             <FaRegCircleDot className="" />
             <span>Em Sessão</span>
           </div>
-          <Button variant={"outline"}>Encerrar</Button>
+          <Button variant={"outline"} onClick={handleEndSession}>
+            Encerrar
+          </Button>
         </div>
       </div>
+
       <div className="w-full flex-1 p-4">
         <div className="rounded-2xl h-full w-full flex gap-4">
           {/* Meet */}
@@ -62,11 +89,13 @@ const MeetingRoom = () => {
                 </div>
               </div>
 
-              {/* Participante 2 */}
+              {/* Participante 2 - usuário logado */}
               <div className="relative bg-gray-800 rounded-xl overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-transparent" />
                 <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full">
-                  <span className="text-white text-sm font-medium">Você</span>
+                  <span className="text-white text-sm font-medium">
+                    {userName}
+                  </span>
                 </div>
                 <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="bg-red-600/90 backdrop-blur-sm p-2 rounded-full">
@@ -78,7 +107,9 @@ const MeetingRoom = () => {
                 </div>
                 <div className="w-full h-full flex items-center justify-center">
                   <div className="w-24 h-24 rounded-full bg-blue-600 flex items-center justify-center">
-                    <span className="text-white text-3xl font-bold">VC</span>
+                    <span className="text-white text-3xl font-bold">
+                      {userInitials}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -179,7 +210,9 @@ const MeetingRoom = () => {
               {/* Mensagem enviada */}
               <div className="flex gap-2 flex-row-reverse">
                 <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-xs font-bold">VC</span>
+                  <span className="text-white text-xs font-bold">
+                    {userInitials}
+                  </span>
                 </div>
                 <div className="flex flex-col gap-1 items-end">
                   <div className="flex items-center gap-2 flex-row-reverse">
